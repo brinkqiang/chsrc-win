@@ -20,3 +20,6 @@ if (UNIX AND NOT APPLE)
 endif()
 
 add_executable(chsrc src/chsrc.c)
+
+install(TARGETS chsrc
+        RUNTIME DESTINATION bin)
