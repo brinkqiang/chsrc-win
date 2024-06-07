@@ -1,11 +1,16 @@
-CMakeLists.txt.user
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
-_deps
+.vscode
+
+*.exe
+*.out
+*.o
+*.obj
+
+# target exe name
+chsrc
+xy
+
+# 'chsrc set -local' generated
+.bundle
+
+# Generated when testing
+nul
