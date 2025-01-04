@@ -21,4 +21,4 @@ endif()
 include_directories(include)
 add_executable(chsrc src/chsrc.c)
 
-install(TARGETS chsrc RUNTIME DESTINATION bin)
+AddInstall(chsrc)
