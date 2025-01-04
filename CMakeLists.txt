@@ -18,20 +18,7 @@ if (UNIX AND NOT APPLE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static")
 endif()
 
-include_directories(include)
 add_executable(chsrc src/chsrc.c)
-
-IF(WIN32)
-ADD_CUSTOM_COMMAND(
-TARGET chsrc
-PRE_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/dmbeyondcompare.exe $<TARGET_FILE_DIR:chsrc>
-COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/nssm.exe $<TARGET_FILE_DIR:chsrc>
-COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/install.bat $<TARGET_FILE_DIR:chsrc>
-COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/uninstall.bat $<TARGET_FILE_DIR:chsrc>
-COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE $<TARGET_FILE_DIR:chsrc>
-)
-ENDIF(WIN32)
 
 install(DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/
         DESTINATION bin
@@ -53,6 +40,15 @@ set(CPACK_PACKAGE_CONTACT "https://github.com/RubyMetric/chsrc")
 set(CPACK_PACKAGE_VERSION "1.0.1")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+
+set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}\\\\icon\\\\chsrc.ico") # 设置安装界面的图标
+set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}\\\\icon\\\\chsrc.ico") # 设置安装程序的图标
+set(CPACK_NSIS_MUI_UNICON "${CMAKE_CURRENT_SOURCE_DIR}\\\\icon\\\\chsrc.ico") # 设置卸载程序的图标
+set(CPACK_NSIS_INSTALLED_ICON_NAME "${CMAKE_CURRENT_SOURCE_DIR}\\\\icon\\\\chsrc.ico") # 设置可执行程序的图标
+
+# NSIS 特定配置
+set(CPACK_NSIS_DISPLAY_NAME "chsrc") # 设置在“添加/删除程序”中显示的名称
+set(CPACK_NSIS_MODIFY_PATH ON) # 允许用户将程序目录添加到 PATH
 
 set(CPACK_CMD "cpack -V -G NSIS64")
 
