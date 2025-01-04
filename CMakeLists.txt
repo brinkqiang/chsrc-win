@@ -68,6 +68,8 @@ IF(WIN32)
     # 安装时执行的额外命令
     SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
     ExecWait '\\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\install.bat\\\"'
+
+    ExecWait 'MessageBox \"安装完成！已添加环境变量！\" MB_OK'
     ")
 
     # 卸载时执行的额外命令
