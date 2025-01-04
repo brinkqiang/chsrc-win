@@ -814,7 +814,7 @@ wr_anaconda_sources[] = {
 
 
 
-#define def_sources_n(t) const size_t t##_sources_n = xy_arylen(t##_sources)
+#define def_sources_n(t) size_t t##_sources_n = xy_arylen(t##_sources)
 
 def_sources_n(pl_ruby);     def_sources_n(pl_python);    def_sources_n(pl_nodejs);
 def_sources_n(pl_perl);     def_sources_n(pl_php);       def_sources_n(pl_lua);

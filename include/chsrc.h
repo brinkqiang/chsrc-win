@@ -425,4 +425,4 @@ typedef struct {
   size_t      sources_n;
 } TargetInfo;
 
-#define def_target(t) TargetInfo t##_target = {&t##_setsrc, &t##_getsrc, &t##_sources, &t##_sources_n}
+#define def_target(t)  TargetInfo t##_target = {&t##_setsrc, &t##_getsrc, &t##_sources, &t##_sources_n}

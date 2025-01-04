@@ -1959,10 +1959,19 @@ wr_anaconda_setsrc (char *option)
 
 
 /************************************** Begin Target Matrix ****************************************/
-def_target(pl_ruby);  def_target(pl_python);  def_target(pl_nodejs);  def_target(pl_perl); def_target(pl_php);
+def_target(pl_ruby);
+def_target(pl_python);
+def_target(pl_nodejs);
+def_target(pl_perl);
+def_target(pl_php);
 def_target(pl_lua);
-def_target(pl_rust);  def_target(pl_go);  def_target(pl_java); def_target(pl_dart); def_target(pl_ocaml);
-def_target(pl_r);     def_target(pl_julia);
+def_target(pl_rust);
+def_target(pl_go);
+def_target(pl_java);
+def_target(pl_dart);
+def_target(pl_ocaml);
+def_target(pl_r);
+def_target(pl_julia);
 
 TargetInfo
   pl_clojure_target = {pl_clojure_setsrc, NULL,  pl_clojure_sources, &pl_clojure_sources_n},
@@ -1997,14 +2006,22 @@ static const char
 };
 
 
-def_target(os_ubuntu); def_target(os_mint); def_target(os_debian);   def_target(os_kali);
-def_target(os_alpine); def_target(os_void); def_target(os_trisquel); def_target(os_linuxlite);
-def_target(os_netbsd); def_target(os_openbsd);
-def_target(os_deepin); def_target(os_openkylin);
+def_target(os_ubuntu);
+def_target(os_mint);
+def_target(os_debian);
+def_target(os_kali);
+def_target(os_alpine);
+def_target(os_void);
+def_target(os_trisquel);
+def_target(os_linuxlite);
+def_target(os_netbsd);
+def_target(os_openbsd);
+def_target(os_deepin);
+def_target(os_openkylin);
 def_target(os_raspberrypi);
 
 
-TargetInfo
+const TargetInfo
   os_fedora_target   = {os_fedora_setsrc,    NULL, os_fedora_sources,    &os_fedora_sources_n},
   os_opensuse_target = {os_opensuse_setsrc,  NULL, os_opensuse_sources,  &os_opensuse_sources_n},
   os_msys2_target    = {os_msys2_setsrc,     NULL, os_msys2_sources,     &os_msys2_sources_n},
@@ -2055,7 +2072,8 @@ static const char
 };
 
 
-def_target(wr_brew); def_target(wr_tex);
+def_target(wr_brew);
+def_target(wr_tex);
 TargetInfo
   wr_flathub_target  = {wr_flathub_setsrc,  NULL,  wr_flathub_sources,  &wr_flathub_sources_n},
   wr_nix_target      = {wr_nix_setsrc,      NULL,  wr_nix_sources,      &wr_nix_sources_n},
@@ -2321,7 +2339,6 @@ get_target (const char *input, TargetOp code, char *option)
     }
   return true;
 }
-
 
 int
 main (int argc, char const *argv[])
