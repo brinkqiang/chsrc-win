@@ -228,7 +228,7 @@ auto_select_ (SourceInfo *sources, size_t size, const char *target)
   bool onlyone = false;
   if (1==size) onlyone = true;
 
-  double speeds[size];
+  double *speeds = alloca(size*sizeof(double));
   double speed = 0.0;
   for (int i=0;i<size;i++)
   {
@@ -425,4 +425,4 @@ typedef struct {
   size_t      sources_n;
 } TargetInfo;
 
-#define def_target(t) TargetInfo t##_target = {t##_setsrc, t##_getsrc, t##_sources, t##_sources_n}
+#define def_target(t) TargetInfo t##_target = {&t##_setsrc, &t##_getsrc, &t##_sources, &t##_sources_n}

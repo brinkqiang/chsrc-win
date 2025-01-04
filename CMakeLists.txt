@@ -1,24 +1,26 @@
 cmake_minimum_required(VERSION 3.8)
 
-PROJECT(chsrc)
+PROJECT(chsrc C CXX)
 
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 INCLUDE(cmake/ModuleImport.cmake)
 INCLUDE(cmake/ModuleCompileOptions.cmake)
-ModuleSetCompileOptions()
+#ModuleSetCompileOptions()
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Iinclude")
 
 if (WIN32)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Target x86_64-pc-windows-gnu")
+    add_definitions(/utf-8)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 endif()
 
 if (UNIX AND NOT APPLE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static")
 endif()
 
+include_directories(include)
 add_executable(chsrc src/chsrc.c)
 
 install(TARGETS chsrc

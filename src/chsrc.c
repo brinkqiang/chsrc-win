@@ -1965,9 +1965,9 @@ def_target(pl_rust);  def_target(pl_go);  def_target(pl_java); def_target(pl_dar
 def_target(pl_r);     def_target(pl_julia);
 
 TargetInfo
-  pl_clojure_target = {pl_clojure_setsrc, NULL,  pl_clojure_sources, pl_clojure_sources_n},
-  pl_dotnet_target  = {pl_dotnet_setsrc,  NULL,  pl_dotnet_sources,  pl_dotnet_sources_n},
-  pl_haskell_target = {pl_haskell_setsrc, NULL,  pl_haskell_sources, pl_haskell_sources_n};
+  pl_clojure_target = {pl_clojure_setsrc, NULL,  pl_clojure_sources, &pl_clojure_sources_n},
+  pl_dotnet_target  = {pl_dotnet_setsrc,  NULL,  pl_dotnet_sources,  &pl_dotnet_sources_n},
+  pl_haskell_target = {pl_haskell_setsrc, NULL,  pl_haskell_sources, &pl_haskell_sources_n};
 
 
 #define t(a) (const char*)(a)
@@ -2005,17 +2005,17 @@ def_target(os_raspberrypi);
 
 
 TargetInfo
-  os_fedora_target   = {os_fedora_setsrc,    NULL, os_fedora_sources,    os_fedora_sources_n},
-  os_opensuse_target = {os_opensuse_setsrc,  NULL, os_opensuse_sources,  os_opensuse_sources_n},
-  os_msys2_target    = {os_msys2_setsrc,     NULL, os_msys2_sources,     os_msys2_sources_n},
-  os_arch_target     = {os_arch_setsrc,      NULL, os_arch_sources,      os_arch_sources_n},
+  os_fedora_target   = {os_fedora_setsrc,    NULL, os_fedora_sources,    &os_fedora_sources_n},
+  os_opensuse_target = {os_opensuse_setsrc,  NULL, os_opensuse_sources,  &os_opensuse_sources_n},
+  os_msys2_target    = {os_msys2_setsrc,     NULL, os_msys2_sources,     &os_msys2_sources_n},
+  os_arch_target     = {os_arch_setsrc,      NULL, os_arch_sources,      &os_arch_sources_n},
   os_manjaro_target  = {os_manjaro_setsrc,   NULL, NULL,                       0},
-  os_gentoo_target   = {os_gentoo_setsrc,    NULL, os_gentoo_sources,    os_gentoo_sources_n},
-  os_rocky_target    = {os_rocky_setsrc,     NULL, os_rocky_sources,     os_rocky_sources_n},
-  os_solus_target    = {os_solus_setsrc,     NULL, os_solus_sources,     os_solus_sources_n},
-  os_freebsd_target  = {os_freebsd_setsrc,   NULL, os_freebsd_sources,   os_freebsd_sources_n},
-  os_openeuler_target= {os_openeuler_setsrc, NULL, os_openeuler_sources, os_openeuler_sources_n},
-  os_ros_target      = {os_ros_setsrc,       NULL, os_ros_sources,       os_ros_sources_n};
+  os_gentoo_target   = {os_gentoo_setsrc,    NULL, os_gentoo_sources,    &os_gentoo_sources_n},
+  os_rocky_target    = {os_rocky_setsrc,     NULL, os_rocky_sources,     &os_rocky_sources_n},
+  os_solus_target    = {os_solus_setsrc,     NULL, os_solus_sources,     &os_solus_sources_n},
+  os_freebsd_target  = {os_freebsd_setsrc,   NULL, os_freebsd_sources,   &os_freebsd_sources_n},
+  os_openeuler_target= {os_openeuler_setsrc, NULL, os_openeuler_sources, &os_openeuler_sources_n},
+  os_ros_target      = {os_ros_setsrc,       NULL, os_ros_sources,       &os_ros_sources_n};
 
 static const char
 *os_ubuntu     [] = {"ubuntu",               NULL,  t(&os_ubuntu_target)},
@@ -2057,11 +2057,11 @@ static const char
 
 def_target(wr_brew); def_target(wr_tex);
 TargetInfo
-  wr_flathub_target  = {wr_flathub_setsrc,  NULL,  wr_flathub_sources,  wr_flathub_sources_n},
-  wr_nix_target      = {wr_nix_setsrc,      NULL,  wr_nix_sources,      wr_nix_sources_n},
-  wr_guix_target     = {wr_guix_setsrc,     NULL,  wr_guix_sources,     wr_guix_sources_n},
-  wr_emacs_target    = {wr_emacs_setsrc,    NULL,  wr_emacs_sources,    wr_emacs_sources_n},
-  wr_anaconda_target = {wr_anaconda_setsrc, NULL,  wr_anaconda_sources, wr_anaconda_sources_n};
+  wr_flathub_target  = {wr_flathub_setsrc,  NULL,  wr_flathub_sources,  &wr_flathub_sources_n},
+  wr_nix_target      = {wr_nix_setsrc,      NULL,  wr_nix_sources,      &wr_nix_sources_n},
+  wr_guix_target     = {wr_guix_setsrc,     NULL,  wr_guix_sources,     &wr_guix_sources_n},
+  wr_emacs_target    = {wr_emacs_setsrc,    NULL,  wr_emacs_sources,    &wr_emacs_sources_n},
+  wr_anaconda_target = {wr_anaconda_setsrc, NULL,  wr_anaconda_sources, &wr_anaconda_sources_n};
 
 static const char
 *wr_brew    [] = {"brew",  "homebrew",     NULL,  t(&wr_brew_target)},

@@ -27,7 +27,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifndef _WIN32
 #include <unistd.h>
+#endif
+
+
+#ifdef _WIN32
+#define popen _popen  // Windows平台使用 _popen
+#define pclose _pclose  // Windows平台使用 _pclose
+#define alloca _alloca  // Windows平台默认支持 alloca
+
+ // 如果使用 _alloca 出现问题，可以使用 malloc 代替：
+ // #define alloca(size) malloc(size)
+#else
+#define alloca(size) __builtin_alloca(size)  // 在类Unix系统上，__builtin_alloca 是 GCC 提供的
+#endif
 
 // #define NDEBUG
 

@@ -84,20 +84,15 @@ MirrorSite
  * @warning 腾讯软件源中，有很多链接都已失效，请仔细检查
  */
 MirrorSite
-  Ali      = {"ali",     "Ali OPSX", "阿里巴巴开源镜像站",  "https://developer.aliyun.com/mirror/",
-              "https://mirrors.aliyun.com/deepin-cd" Big_File_deepin},
+  Ali      = {"ali",     "Ali OPSX", "阿里巴巴开源镜像站",  "https://developer.aliyun.com/mirror/", "https://mirrors.aliyun.com/deepin-cd" Big_File_deepin},
 
-  Tencent  = {"tencent", "Tencent",  "腾讯软件源",         "https://mirrors.tencent.com/",
-              "https://mirrors.cloud.tencent.com/debian" Big_File_debian},
+  Tencent  = {"tencent", "Tencent",  "腾讯软件源",         "https://mirrors.tencent.com/", "https://mirrors.cloud.tencent.com/debian" Big_File_debian},
 
-  Huawei   = {"huawei",  "Huawei Cloud", "华为开源镜像站",  "https://mirrors.huaweicloud.com/",
-              "https://mirrors.huaweicloud.com/debian" Big_File_debian },
+  Huawei   = {"huawei",  "Huawei Cloud", "华为开源镜像站",  "https://mirrors.huaweicloud.com/", "https://mirrors.huaweicloud.com/debian" Big_File_debian },
 
-  Netease  = {"netease", "Netease",  "网易开源镜像站",      "https://mirrors.163.com/",
-              "https://mirrors.163.com/deepin-cd" Big_File_deepin},
+  Netease  = {"netease", "Netease",  "网易开源镜像站",      "https://mirrors.163.com/", "https://mirrors.163.com/deepin-cd" Big_File_deepin},
 
-  Sohu     = {"sohu",    "SOHU",     "搜狐开源镜像站",      "https://mirrors.sohu.com/",
-              "https://mirrors.sohu.com/deepin-cd" Big_File_deepin},
+  Sohu     = {"sohu",    "SOHU",     "搜狐开源镜像站",      "https://mirrors.sohu.com/", "https://mirrors.sohu.com/deepin-cd" Big_File_deepin},
 
   Api7     = {"api7",    "api7.ai",  "深圳支流科技有限公司", "https://www.apiseven.com/", NULL};
 
