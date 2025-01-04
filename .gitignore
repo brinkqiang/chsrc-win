@@ -15,3 +15,5 @@ xy
 # Generated when testing
 nul
 /build
+/icon/img2img
+/bin

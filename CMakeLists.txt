@@ -21,4 +21,52 @@ endif()
 include_directories(include)
 add_executable(chsrc src/chsrc.c)
 
-AddInstall(chsrc)
+IF(WIN32)
+ADD_CUSTOM_COMMAND(
+TARGET chsrc
+PRE_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/dmbeyondcompare.exe $<TARGET_FILE_DIR:chsrc>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/nssm.exe $<TARGET_FILE_DIR:chsrc>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/install.bat $<TARGET_FILE_DIR:chsrc>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/task/uninstall.bat $<TARGET_FILE_DIR:chsrc>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE $<TARGET_FILE_DIR:chsrc>
+)
+ENDIF(WIN32)
+
+install(DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/
+        DESTINATION bin
+        FILES_MATCHING PATTERN "*"
+        PATTERN "debug" EXCLUDE
+        PATTERN "*.pdb" EXCLUDE
+        PATTERN "*.lib" EXCLUDE
+        PATTERN "*.zip" EXCLUDE
+        PATTERN "dmtime*" EXCLUDE
+        PATTERN "dmflag*" EXCLUDE
+        )
+
+
+# 配置 CPack 打包选项
+set(CPACK_GENERATOR "ZIP;NSIS64") # 选择打包格式，这里以 ZIP 为例
+set(CPACK_PACKAGE_NAME "chsrc") # 设置包的名字
+set(CPACK_PACKAGE_VENDOR "dmsoft") # 设置包的作者
+set(CPACK_PACKAGE_DESCRIPTION "dmsoft chsrc") # 设置包的描述
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "dmsoft chsrc summary")
+set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}\\\\icon\\\\chsrc.png") # 设置包的图标
+set(CPACK_PACKAGE_CONTACT "https://github.com/brinkqiang/chsrc")
+set(CPACK_PACKAGE_VERSION "1.0.1")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+
+IF(WIN32)
+    SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+    ExecWait '\\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\install.bat\\\"'
+    ")
+
+    SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+    ExecWait '\\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\uninstall.bat\\\"'
+    ")
+ENDIF(WIN32)
+
+set(CPACK_CMD "cpack -V -G NSIS64")
+
+include(CPack)
