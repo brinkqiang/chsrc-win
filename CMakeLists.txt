@@ -65,12 +65,6 @@ set(CPACK_NSIS_DISPLAY_NAME "chsrc-win") # 设置在“添加/删除程序”中
 set(CPACK_CMD "cpack -V -G NSIS64")
 # Windows 特定配置
 IF(WIN32)
-    # 指定生成桌面快捷方式
-    set(CPACK_NSIS_CREATE_ICONS_EXTRA
-        "CreateShortCut \\\"$DESKTOP\\\\chsrc-win.lnk\\\" \\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\chsrc-win.exe\\\"")
-        
-    set(CPACK_NSIS_DELETE_ICONS_EXTRA
-        "Delete \\\"$DESKTOP\\\\chsrc-win.lnk\\\"")
     # 安装时执行的额外命令
     SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
     ExecWait '\\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\install.bat\\\"'
