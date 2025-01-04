@@ -21,6 +21,17 @@ endif()
 
 add_executable(chsrc-win src/chsrc.c src/chsrc.rc)
 
+IF(WIN32)
+ADD_CUSTOM_COMMAND(
+TARGET chsrc-win
+PRE_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/env/install.bat $<TARGET_FILE_DIR:chsrc-win>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/env/uninstall.bat $<TARGET_FILE_DIR:chsrc-win>
+COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/env/dmpath.exe $<TARGET_FILE_DIR:chsrc-win>
+)
+ENDIF(WIN32)
+
+
 install(DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/
         DESTINATION bin
         FILES_MATCHING PATTERN "*"
@@ -52,5 +63,23 @@ set(CPACK_NSIS_DISPLAY_NAME "chsrc-win") # 设置在“添加/删除程序”中
 set(CPACK_NSIS_MODIFY_PATH ON) # 允许用户将程序目录添加到 PATH
 
 set(CPACK_CMD "cpack -V -G NSIS64")
+# Windows 特定配置
+IF(WIN32)
+    # 指定生成桌面快捷方式
+    set(CPACK_NSIS_CREATE_ICONS_EXTRA
+        "CreateShortCut \\\"$DESKTOP\\\\chsrc-win.lnk\\\" \\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\chsrc-win.exe\\\"")
+        
+    set(CPACK_NSIS_DELETE_ICONS_EXTRA
+        "Delete \\\"$DESKTOP\\\\chsrc-win.lnk\\\"")
+    # 安装时执行的额外命令
+    SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+    ExecWait '\\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\install.bat\\\"'
+    ")
+
+    # 卸载时执行的额外命令
+    SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+    ExecWait '\\\"$INSTDIR\\\\bin\\\\RelWithDebInfo\\\\uninstall.bat\\\"'
+    ")
+ENDIF(WIN32)
 
 include(CPack)
