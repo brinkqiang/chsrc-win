@@ -10,11 +10,8 @@ ModuleSetWinCompilerFlags()
 
 set(CMAKE_C_STANDARD 99)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Iinclude")
-
 if (WIN32)
     add_definitions(/utf-8)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 endif()
 
 if (UNIX AND NOT APPLE)
@@ -24,5 +21,4 @@ endif()
 include_directories(include)
 add_executable(chsrc src/chsrc.c)
 
-install(TARGETS chsrc
-        RUNTIME DESTINATION bin)
+install(TARGETS chsrc RUNTIME DESTINATION bin)
