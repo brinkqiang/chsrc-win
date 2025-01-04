@@ -1,0 +1,87 @@
+name: 🐞 Bug 报告
+description: 有 Bug 了吗?
+title: "详细报告BUG是chsrc用户的一大美德"
+labels: ['Bug']
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        感谢您花时间填写此 Bug 报告!
+
+  - type: textarea
+    id: what-did-you-do
+    attributes:
+      label: 你操作了什么？
+      # description: 告诉我们，在问题出现之前你使用 chsrc 做了什么?
+      placeholder: 我运行了 chsrc set <target>...
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么？
+      # description: 告诉我们，发生了什么你认为不该出现的事？屏幕截图或视频记录都很有帮助
+      placeholder: 换源没有成功...
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: 本应该怎么样？
+      # description: 告诉我们，正常的或你期望看到的 运行结果和状态
+      placeholder: 我希望 chsrc 成功帮我换源...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: chsrc 版本
+      # description: 你正在使用 chsrc 哪个版本？
+      placeholder: 请使用 chsrc -h 查看第一行*带有日期*的精确版本
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 你使用的是哪个操作系统？
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - FreeBSD
+        - NetBSD
+        - OpenBSD
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: OS 版本 / OS 发行版
+      # description: ""
+      placeholder: "请告诉我们具体的OS版本或发行版，如 Windows 11, Ubuntu Linux 24.04... 等等"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log 输出
+      description: 请复制粘贴任何相关的 Log 输出。此内容将自动格式化为代码块，因此不需要反引号
+      render: shell
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 防止重复问题
+      description: 您确认在打开这个新的 issue 之前已经搜索过类似的issue。您可以评论或订阅已经存在的相关 issue
+      options:
+        - label: 我已在项目的 GitHub 和 Gitee 两个仓库分别搜索过类似的 issue
+          required: true
