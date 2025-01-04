@@ -12,13 +12,14 @@ set(CMAKE_C_STANDARD 99)
 
 if (WIN32)
     add_definitions(/utf-8)
+    enable_language(RC)
 endif()
 
 if (UNIX AND NOT APPLE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static")
 endif()
 
-add_executable(chsrc src/chsrc.c)
+add_executable(chsrc src/chsrc.c src/chsrc.rc)
 
 install(DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/
         DESTINATION bin
