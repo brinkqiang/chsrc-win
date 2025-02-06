@@ -59,9 +59,9 @@ if (WIN32)
 else()
     add_executable(chsrc src/chsrc.c)
 
-    get_target_property(LINK_FLAGS chsrc LINK_FLAGS)
-    message(STATUS "Linker Flags for chsrc: ${LINK_FLAGS}")
+    #get_target_property(LINK_FLAGS chsrc LINK_FLAGS)
+    #message(STATUS "Linker Flags for chsrc: ${LINK_FLAGS}")
 
     # 打印全局链接器参数
-    message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
+    #message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
 endif()
