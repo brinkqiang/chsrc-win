@@ -6,9 +6,9 @@ LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 INCLUDE(cmake/ModuleImport.cmake)
 INCLUDE(cmake/ModuleCompileOptions.cmake)
 ModuleSetCompileOptions()
-ModuleSetWinCompilerFlags()
+#ModuleSetWinCompilerFlags()
 
-set(CMAKE_C_STANDARD 99)
+#set(CMAKE_C_STANDARD 99)
 
 if (WIN32)
     add_definitions(/utf-8)
