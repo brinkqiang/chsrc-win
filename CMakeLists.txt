@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 
-PROJECT(chsrc C CXX)
+PROJECT(chsrc)
 
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 INCLUDE(cmake/ModuleImport.cmake)
