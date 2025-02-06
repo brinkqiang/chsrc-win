@@ -59,6 +59,7 @@ if (WIN32)
 else()
     add_executable(chsrc src/chsrc.c)
 
+    AddInstall(chsrc)
     #get_target_property(LINK_FLAGS chsrc LINK_FLAGS)
     #message(STATUS "Linker Flags for chsrc: ${LINK_FLAGS}")
 
