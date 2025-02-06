@@ -16,7 +16,7 @@ if (WIN32)
 endif()
 
 if (UNIX AND NOT APPLE)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 endif()
 
 
