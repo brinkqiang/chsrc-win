@@ -58,7 +58,7 @@ IF(WIN32)
 
     # NSIS 特定配置
     set(CPACK_NSIS_DISPLAY_NAME "chsrc-win") # 设置在“添加/删除程序”中显示的名称
-    # set(CPACK_NSIS_MODIFY_PATH ON) # 允许用户将程序目录添加到 PATH # 这个功能 收到 path 环境变量长度限制，不建议开启, 这里用自定义程序dmpath处理
+    # set(CPACK_NSIS_MODIFY_PATH ON) # 允许用户将程序目录添加到 PATH # 这个功能 受到 path 环境变量长度限制，不建议开启, 这里用自定义程序dmpath处理
 
     set(CPACK_CMD "cpack -V -G NSIS64")
 
