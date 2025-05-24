@@ -1,4 +1,3 @@
-
 // Copyright (c) 2018 brinkqiang (brink.qiang@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,43 +24,58 @@
 #ifndef __DMFIX_WIN_UTF8_H_INCLUDE__
 #define __DMFIX_WIN_UTF8_H_INCLUDE__
 
-#include <cstdint>
-#include <iostream>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef _WIN32
 #include <windows.h>
-#include <fcntl.h>
-#include <io.h>
+/*
+ * Note: <fcntl.h> and <io.h> from the C++ example are not strictly needed
+ * for SetConsoleOutputCP/SetConsoleCP. They would be relevant for functions like _setmode
+ * if one wanted to set stdout/stdin to _O_U8TEXT or _O_WTEXT for printf/scanf.
+ * The original C++ example's Initializer did not use them.
+ */
 #else
-#include <clocale>
+#include <locale.h> // For setlocale
 #endif
 
-class ConsoleEncoding {
-public:
-    // 禁止实例化
-    ConsoleEncoding() = delete;
-    ~ConsoleEncoding() = delete;
-    ConsoleEncoding(const ConsoleEncoding&) = delete;
-    ConsoleEncoding& operator=(const ConsoleEncoding&) = delete;
+#define DMFIX_INTERNAL_CODE_PAGE_UTF8 65001 // Windows code page for UTF-8
 
-private:
-    // 静态成员变量，用于初始化代码页
-    static inline uint32_t codePage = 65001; // 默认 UTF-8
-
-    // 静态对象的构造函数，用于设置控制台代码页
-    struct Initializer {
-        Initializer() {
+static inline void dm_win_utf8_internal_setup(void) {
 #ifdef _WIN32
-        SetConsoleOutputCP(codePage);
-        SetConsoleCP(codePage);
+    SetConsoleOutputCP(DMFIX_INTERNAL_CODE_PAGE_UTF8);
+    SetConsoleCP(DMFIX_INTERNAL_CODE_PAGE_UTF8);
 #else
-        // 设置 Linux/macOS 区域设置
-        std::setlocale(LC_ALL, "en_US.utf8");
+    /*
+     * Attempts to set the program's locale to UTF-8.
+     * Common locale strings for UTF-8 include "en_US.utf8", "C.UTF-8".
+     * The specific string "en_US.utf8" might not be available on all systems.
+     * setlocale(LC_ALL, "") would use the system's environment-defined locale.
+     * Sticking to "en_US.utf8" to match the C++ example's behavior.
+     */
+    setlocale(LC_ALL, "en_US.utf8");
 #endif
-        }
-    };
+}
 
-    // 静态成员变量：自动执行的初始化器
-    static inline Initializer initializer;
-};
+/*
+ * "Automatic" initialization for C:
+ * This static variable's initializer calls the setup function.
+ * If this header is included in multiple C files (translation units),
+ * this variable (being static) will be defined in each, and its
+ * initializer will run for each. This is generally acceptable because
+ * SetConsoleOutputCP, SetConsoleCP, and setlocale (when called repeatedly
+ * with the same arguments) are idempotent or have benign side effects.
+ *
+ * To disable this automatic initialization, define DMFIX_WIN_UTF8_AUTO_INIT_DISABLED
+ * before including this header.
+ */
+#if !defined(DMFIX_WIN_UTF8_AUTO_INIT_DISABLED)
+static int dm_win_utf8_auto_init_do_not_use_ = (dm_win_utf8_internal_setup(), 0);
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // __DMFIX_WIN_UTF8_H_INCLUDE__

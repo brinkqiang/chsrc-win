@@ -15,7 +15,7 @@
 #define Chsrc_Version "v0.1.5-2024/06/05"
 
 #include "chsrc.h"
-
+#include "dmfix_win.h"
 void
 pl_ruby_getsrc (char *option)
 {
