@@ -18,62 +18,76 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// cmake env 
+// cmake env
 // add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 #ifndef __DMFIX_WIN_CONSOLE_H_INCLUDE__
 #define __DMFIX_WIN_CONSOLE_H_INCLUDE__
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #ifdef _WIN32
 #include <windows.h>
+#if !defined(__cplusplus) && defined(_WIN32)
 #include <stdbool.h>
 #endif
-
-static inline bool dm_win_console_internal_setup(void) {
+#endif
+static inline bool dm_win_console_internal_do_setup(void) {
 #ifdef _WIN32
-    bool overall_success_flag = false;
-    bool console_handle_processed = false;
-    HANDLE handles_to_check[2] = { GetStdHandle(STD_OUTPUT_HANDLE), GetStdHandle(STD_ERROR_HANDLE) };
+    bool any_console_handle_successfully_configured = false;
+    bool at_least_one_console_handle_targeted = false;
+    HANDLE handles_to_check[2] = {GetStdHandle(STD_OUTPUT_HANDLE), GetStdHandle(STD_ERROR_HANDLE)};
 
     for (int i = 0; i < 2; ++i) {
         HANDLE hCurrent = handles_to_check[i];
         if (hCurrent != INVALID_HANDLE_VALUE && GetFileType(hCurrent) == FILE_TYPE_CHAR) {
-            console_handle_processed = true;
+            at_least_one_console_handle_targeted = true;
             DWORD dwOriginalMode = 0;
             if (GetConsoleMode(hCurrent, &dwOriginalMode)) {
                 if (!(dwOriginalMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING)) {
-                    if (SetConsoleMode(hCurrent, dwOriginalMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)) {
-                        overall_success_flag = true;
-                    } else {
+                    if (!SetConsoleMode(hCurrent, dwOriginalMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)) {
                         return false;
                     }
-                } else {
-                    overall_success_flag = true;
                 }
+
+                any_console_handle_successfully_configured = true;
             } else {
                 return false;
             }
         }
     }
 
-    if (!console_handle_processed) {
+    if (!at_least_one_console_handle_targeted) {
         return false;
     }
-    return overall_success_flag;
+    
+    return any_console_handle_successfully_configured;
 #else
     return true;
 #endif
 }
-#if defined(_WIN32) && !defined(DMFIX_WIN_CONSOLE_AUTO_INIT_DISABLED)
-static int dm_win_console_auto_init_do_not_use_ = (dm_win_console_internal_setup(), 0);
-#endif
+
 
 #ifdef __cplusplus
+
+namespace DmInternal {
+    struct DmWinConsoleInitializer {
+        DmWinConsoleInitializer() {
+            dm_win_console_internal_do_setup();
+        }
+    };
+
+    static inline DmWinConsoleInitializer g_dm_win_console_auto_initializer_instance;
+} // namespace DmInternal
+
+extern "C" bool dm_win_console_init() {
+  return dm_win_console_internal_do_setup();
 }
-#endif
+
+#else
+
+static inline bool dm_win_console_init(void) {
+    return dm_win_console_internal_do_setup();
+}
+
+#endif // __cplusplus
 
 #endif // __DMFIX_WIN_CONSOLE_H_INCLUDE__

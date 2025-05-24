@@ -2343,6 +2343,8 @@ get_target (const char *input, TargetOp code, char *option)
 int
 main (int argc, char const *argv[])
 {
+  dm_win_console_init();
+
   xy_useutf8 (); argc -= 1;
 
   if (argc==0)

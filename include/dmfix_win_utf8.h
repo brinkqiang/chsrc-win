@@ -24,29 +24,32 @@
 #ifndef __DMFIX_WIN_UTF8_H_INCLUDE__
 #define __DMFIX_WIN_UTF8_H_INCLUDE__
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #ifdef _WIN32
 #include <windows.h>
-/*
- * Note: <fcntl.h> and <io.h> from the C++ example are not strictly needed
- * for SetConsoleOutputCP/SetConsoleCP. They would be relevant for functions like _setmode
- * if one wanted to set stdout/stdin to _O_U8TEXT or _O_WTEXT for printf/scanf.
- * The original C++ example's Initializer did not use them.
- */
+#if !defined(__cplusplus) && defined(_WIN32)
+#include <stdbool.h>
+#endif
 #else
-#include <locale.h> // For setlocale
+#include <locale.h>
+#if !defined(__cplusplus)
+#include <stdbool.h>
+#endif
 #endif
 
-#define DMFIX_INTERNAL_CODE_PAGE_UTF8 65001 // Windows code page for UTF-8
+#define DMFIX_INTERNAL_CODE_PAGE_UTF8 65001
 
-static inline void dm_win_utf8_internal_setup(void) {
+static inline bool dm_win_utf8_internal_do_setup(void) {
 #ifdef _WIN32
-    SetConsoleOutputCP(DMFIX_INTERNAL_CODE_PAGE_UTF8);
-    SetConsoleCP(DMFIX_INTERNAL_CODE_PAGE_UTF8);
+    BOOL output_cp_set_ok = SetConsoleOutputCP(DMFIX_INTERNAL_CODE_PAGE_UTF8);
+    BOOL input_cp_set_ok = SetConsoleCP(DMFIX_INTERNAL_CODE_PAGE_UTF8);
+    return (output_cp_set_ok != 0 && input_cp_set_ok != 0);
 #else
+    /*
+     * Note: <fcntl.h> and <io.h> from the C++ example are not strictly needed
+     * for SetConsoleOutputCP/SetConsoleCP. They would be relevant for functions like _setmode
+     * if one wanted to set stdout/stdin to _O_U8TEXT or _O_WTEXT for printf/scanf.
+     * The original C++ example's Initializer did not use them.
+     */
     /*
      * Attempts to set the program's locale to UTF-8.
      * Common locale strings for UTF-8 include "en_US.utf8", "C.UTF-8".
@@ -54,28 +57,37 @@ static inline void dm_win_utf8_internal_setup(void) {
      * setlocale(LC_ALL, "") would use the system's environment-defined locale.
      * Sticking to "en_US.utf8" to match the C++ example's behavior.
      */
-    setlocale(LC_ALL, "en_US.utf8");
+    if (setlocale(LC_ALL, "en_US.utf8") != NULL) {
+        return true;
+    }
+    // else if (setlocale(LC_ALL, "C.UTF-8") != NULL) {
+    //     return true;
+    // }
+    return false;
 #endif
 }
 
-/*
- * "Automatic" initialization for C:
- * This static variable's initializer calls the setup function.
- * If this header is included in multiple C files (translation units),
- * this variable (being static) will be defined in each, and its
- * initializer will run for each. This is generally acceptable because
- * SetConsoleOutputCP, SetConsoleCP, and setlocale (when called repeatedly
- * with the same arguments) are idempotent or have benign side effects.
- *
- * To disable this automatic initialization, define DMFIX_WIN_UTF8_AUTO_INIT_DISABLED
- * before including this header.
- */
-#if !defined(DMFIX_WIN_UTF8_AUTO_INIT_DISABLED)
-static int dm_win_utf8_auto_init_do_not_use_ = (dm_win_utf8_internal_setup(), 0);
-#endif
 
 #ifdef __cplusplus
-} // extern "C"
-#endif
+
+namespace DmInternal {
+    struct DmWinUtf8Initializer {
+        DmWinUtf8Initializer() {
+            dm_win_utf8_internal_do_setup();
+        }
+    };
+    static inline DmWinUtf8Initializer g_dm_win_utf8_auto_initializer_instance;
+} // namespace DmInternal
+
+// extern "C" bool dm_win_utf8_init_explicitly() {
+//     return dm_win_utf8_internal_do_setup();
+// }
+
+#else
+static inline bool dm_win_utf8_init(void) {
+    return dm_win_utf8_internal_do_setup();
+}
+
+#endif // __cplusplus
 
 #endif // __DMFIX_WIN_UTF8_H_INCLUDE__
